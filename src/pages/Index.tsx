@@ -1,7 +1,11 @@
+import Layout from "@/components/Layout";
+import Dashboard from "./Dashboard";
+
 const Index = () => {
   return (
-    <div>
-    </div>
+    <Layout>
+      <Dashboard />
+    </Layout>
   );
 };
 
