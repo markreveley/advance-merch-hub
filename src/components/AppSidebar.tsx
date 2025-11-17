@@ -1,4 +1,4 @@
-import { Home, Package, ShoppingCart, Calendar, MapPin, FileText } from "lucide-react";
+import { Home, Package, Warehouse, ShoppingCart, Calendar, MapPin, FileText } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
 
@@ -16,6 +16,7 @@ import {
 
 const merchItems = [
   { title: "Products", url: "/products", icon: Package },
+  { title: "Inventory", url: "/inventory", icon: Warehouse },
   { title: "Sales Orders", url: "/sales", icon: ShoppingCart },
 ];
 
