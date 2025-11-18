@@ -58,31 +58,443 @@ export type Database = {
           },
         ]
       }
-      inventory: {
+      inventory_snapshots: {
+        Row: {
+          created_at: string | null
+          id: string
+          product_variant_id: string
+          quantity: number
+          snapshot_date: string
+          snapshot_type: string
+          state: string
+          tour_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          product_variant_id: string
+          quantity: number
+          snapshot_date: string
+          snapshot_type: string
+          state: string
+          tour_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          product_variant_id?: string
+          quantity?: number
+          snapshot_date?: string
+          snapshot_type?: string
+          state?: string
+          tour_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inventory_snapshots_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: false
+            referencedRelation: "master_inventory_view"
+            referencedColumns: ["variant_id"]
+          },
+          {
+            foreignKeyName: "inventory_snapshots_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: false
+            referencedRelation: "product_pricing_view"
+            referencedColumns: ["variant_id"]
+          },
+          {
+            foreignKeyName: "inventory_snapshots_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: false
+            referencedRelation: "product_variants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_snapshots_tour_id_fkey"
+            columns: ["tour_id"]
+            isOneToOne: false
+            referencedRelation: "tours"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      inventory_states: {
         Row: {
           id: string
-          location: string | null
-          product_id: string
-          quantity: number
+          last_counted_at: string | null
+          location_details: string | null
+          product_variant_id: string
+          quantity: number | null
+          state: string
+          tour_id: string | null
           updated_at: string | null
         }
         Insert: {
           id?: string
-          location?: string | null
-          product_id: string
-          quantity?: number
+          last_counted_at?: string | null
+          location_details?: string | null
+          product_variant_id: string
+          quantity?: number | null
+          state: string
+          tour_id?: string | null
           updated_at?: string | null
         }
         Update: {
           id?: string
-          location?: string | null
-          product_id?: string
-          quantity?: number
+          last_counted_at?: string | null
+          location_details?: string | null
+          product_variant_id?: string
+          quantity?: number | null
+          state?: string
+          tour_id?: string | null
           updated_at?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "inventory_product_id_fkey"
+            foreignKeyName: "inventory_states_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: false
+            referencedRelation: "master_inventory_view"
+            referencedColumns: ["variant_id"]
+          },
+          {
+            foreignKeyName: "inventory_states_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: false
+            referencedRelation: "product_pricing_view"
+            referencedColumns: ["variant_id"]
+          },
+          {
+            foreignKeyName: "inventory_states_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: false
+            referencedRelation: "product_variants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_states_tour_id_fkey"
+            columns: ["tour_id"]
+            isOneToOne: false
+            referencedRelation: "tours"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      inventory_transactions: {
+        Row: {
+          created_at: string | null
+          from_state: string | null
+          id: string
+          notes: string | null
+          product_variant_id: string
+          quantity: number
+          show_id: string | null
+          source: string
+          to_state: string | null
+          tour_id: string | null
+          transaction_date: string | null
+          transaction_type: string
+        }
+        Insert: {
+          created_at?: string | null
+          from_state?: string | null
+          id?: string
+          notes?: string | null
+          product_variant_id: string
+          quantity: number
+          show_id?: string | null
+          source: string
+          to_state?: string | null
+          tour_id?: string | null
+          transaction_date?: string | null
+          transaction_type: string
+        }
+        Update: {
+          created_at?: string | null
+          from_state?: string | null
+          id?: string
+          notes?: string | null
+          product_variant_id?: string
+          quantity?: number
+          show_id?: string | null
+          source?: string
+          to_state?: string | null
+          tour_id?: string | null
+          transaction_date?: string | null
+          transaction_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inventory_transactions_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: false
+            referencedRelation: "master_inventory_view"
+            referencedColumns: ["variant_id"]
+          },
+          {
+            foreignKeyName: "inventory_transactions_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: false
+            referencedRelation: "product_pricing_view"
+            referencedColumns: ["variant_id"]
+          },
+          {
+            foreignKeyName: "inventory_transactions_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: false
+            referencedRelation: "product_variants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_transactions_show_id_fkey"
+            columns: ["show_id"]
+            isOneToOne: false
+            referencedRelation: "shows"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_transactions_tour_id_fkey"
+            columns: ["tour_id"]
+            isOneToOne: false
+            referencedRelation: "tours"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_identifiers: {
+        Row: {
+          created_at: string | null
+          id: string
+          identifier_type: string
+          identifier_value: string
+          product_variant_id: string
+          source: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          identifier_type: string
+          identifier_value: string
+          product_variant_id: string
+          source: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          identifier_type?: string
+          identifier_value?: string
+          product_variant_id?: string
+          source?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_identifiers_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: false
+            referencedRelation: "master_inventory_view"
+            referencedColumns: ["variant_id"]
+          },
+          {
+            foreignKeyName: "product_identifiers_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: false
+            referencedRelation: "product_pricing_view"
+            referencedColumns: ["variant_id"]
+          },
+          {
+            foreignKeyName: "product_identifiers_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: false
+            referencedRelation: "product_variants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_metadata: {
+        Row: {
+          additional_fields: Json | null
+          category: string | null
+          created_at: string | null
+          date_purchased: string | null
+          id: string
+          packaging_shipping_cost: number | null
+          printing_manufacturing_cost: number | null
+          product_variant_id: string
+          supplier_manufacturer: string | null
+          tax_paid: number | null
+          units_purchased: number | null
+          updated_at: string | null
+          wholesale_cost_per_unit: number | null
+        }
+        Insert: {
+          additional_fields?: Json | null
+          category?: string | null
+          created_at?: string | null
+          date_purchased?: string | null
+          id?: string
+          packaging_shipping_cost?: number | null
+          printing_manufacturing_cost?: number | null
+          product_variant_id: string
+          supplier_manufacturer?: string | null
+          tax_paid?: number | null
+          units_purchased?: number | null
+          updated_at?: string | null
+          wholesale_cost_per_unit?: number | null
+        }
+        Update: {
+          additional_fields?: Json | null
+          category?: string | null
+          created_at?: string | null
+          date_purchased?: string | null
+          id?: string
+          packaging_shipping_cost?: number | null
+          printing_manufacturing_cost?: number | null
+          product_variant_id?: string
+          supplier_manufacturer?: string | null
+          tax_paid?: number | null
+          units_purchased?: number | null
+          updated_at?: string | null
+          wholesale_cost_per_unit?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_metadata_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: true
+            referencedRelation: "master_inventory_view"
+            referencedColumns: ["variant_id"]
+          },
+          {
+            foreignKeyName: "product_metadata_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: true
+            referencedRelation: "product_pricing_view"
+            referencedColumns: ["variant_id"]
+          },
+          {
+            foreignKeyName: "product_metadata_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: true
+            referencedRelation: "product_variants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_pricing: {
+        Row: {
+          amount: number
+          created_at: string | null
+          effective_from: string | null
+          effective_to: string | null
+          id: string
+          price_type: string
+          product_variant_id: string
+          source: string
+          updated_at: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          effective_from?: string | null
+          effective_to?: string | null
+          id?: string
+          price_type: string
+          product_variant_id: string
+          source: string
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          effective_from?: string | null
+          effective_to?: string | null
+          id?: string
+          price_type?: string
+          product_variant_id?: string
+          source?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_pricing_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: false
+            referencedRelation: "master_inventory_view"
+            referencedColumns: ["variant_id"]
+          },
+          {
+            foreignKeyName: "product_pricing_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: false
+            referencedRelation: "product_pricing_view"
+            referencedColumns: ["variant_id"]
+          },
+          {
+            foreignKeyName: "product_pricing_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: false
+            referencedRelation: "product_variants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_variants: {
+        Row: {
+          barcode: string | null
+          created_at: string | null
+          id: string
+          option1_name: string | null
+          option1_value: string | null
+          option2_name: string | null
+          option2_value: string | null
+          option3_name: string | null
+          option3_value: string | null
+          product_id: string
+          sku: string
+          updated_at: string | null
+          variant_name: string | null
+          weight: number | null
+          weight_unit: string | null
+        }
+        Insert: {
+          barcode?: string | null
+          created_at?: string | null
+          id?: string
+          option1_name?: string | null
+          option1_value?: string | null
+          option2_name?: string | null
+          option2_value?: string | null
+          option3_name?: string | null
+          option3_value?: string | null
+          product_id: string
+          sku: string
+          updated_at?: string | null
+          variant_name?: string | null
+          weight?: number | null
+          weight_unit?: string | null
+        }
+        Update: {
+          barcode?: string | null
+          created_at?: string | null
+          id?: string
+          option1_name?: string | null
+          option1_value?: string | null
+          option2_name?: string | null
+          option2_value?: string | null
+          option3_name?: string | null
+          option3_value?: string | null
+          product_id?: string
+          sku?: string
+          updated_at?: string | null
+          variant_name?: string | null
+          weight?: number | null
+          weight_unit?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_variants_product_id_fkey"
             columns: ["product_id"]
             isOneToOne: false
             referencedRelation: "products"
@@ -92,31 +504,46 @@ export type Database = {
       }
       products: {
         Row: {
+          ambient_inks_id: string | null
           created_at: string | null
+          description: string | null
+          handle: string
           id: string
-          name: string
-          price: number
-          product_id: number
-          sku: string
+          image_urls: string[] | null
+          published: boolean | null
+          tags: string[] | null
+          title: string
+          type: string | null
           updated_at: string | null
+          vendor: string | null
         }
         Insert: {
+          ambient_inks_id?: string | null
           created_at?: string | null
+          description?: string | null
+          handle: string
           id?: string
-          name: string
-          price: number
-          product_id: number
-          sku: string
+          image_urls?: string[] | null
+          published?: boolean | null
+          tags?: string[] | null
+          title: string
+          type?: string | null
           updated_at?: string | null
+          vendor?: string | null
         }
         Update: {
+          ambient_inks_id?: string | null
           created_at?: string | null
+          description?: string | null
+          handle?: string
           id?: string
-          name?: string
-          price?: number
-          product_id?: number
-          sku?: string
+          image_urls?: string[] | null
+          published?: boolean | null
+          tags?: string[] | null
+          title?: string
+          type?: string | null
           updated_at?: string | null
+          vendor?: string | null
         }
         Relationships: []
       }
@@ -132,8 +559,11 @@ export type Database = {
           order_date: string
           order_number: number
           payout: number
-          product_id: string | null
+          product_name: string
+          product_variant_id: string | null
           quantity: number
+          sku: string | null
+          source: string | null
         }
         Insert: {
           commission?: number | null
@@ -146,8 +576,11 @@ export type Database = {
           order_date: string
           order_number: number
           payout: number
-          product_id?: string | null
+          product_name: string
+          product_variant_id?: string | null
           quantity: number
+          sku?: string | null
+          source?: string | null
         }
         Update: {
           commission?: number | null
@@ -160,15 +593,32 @@ export type Database = {
           order_date?: string
           order_number?: number
           payout?: number
-          product_id?: string | null
+          product_name?: string
+          product_variant_id?: string | null
           quantity?: number
+          sku?: string | null
+          source?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "sales_orders_product_id_fkey"
-            columns: ["product_id"]
+            foreignKeyName: "sales_orders_product_variant_id_fkey"
+            columns: ["product_variant_id"]
             isOneToOne: false
-            referencedRelation: "products"
+            referencedRelation: "master_inventory_view"
+            referencedColumns: ["variant_id"]
+          },
+          {
+            foreignKeyName: "sales_orders_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: false
+            referencedRelation: "product_pricing_view"
+            referencedColumns: ["variant_id"]
+          },
+          {
+            foreignKeyName: "sales_orders_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: false
+            referencedRelation: "product_variants"
             referencedColumns: ["id"]
           },
         ]
@@ -223,6 +673,44 @@ export type Database = {
           },
         ]
       }
+      tour_blocks: {
+        Row: {
+          block_name: string
+          created_at: string | null
+          end_date: string
+          id: string
+          start_date: string
+          tour_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          block_name: string
+          created_at?: string | null
+          end_date: string
+          id?: string
+          start_date: string
+          tour_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          block_name?: string
+          created_at?: string | null
+          end_date?: string
+          id?: string
+          start_date?: string
+          tour_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tour_blocks_tour_id_fkey"
+            columns: ["tour_id"]
+            isOneToOne: false
+            referencedRelation: "tours"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tour_reports: {
         Row: {
           created_at: string | null
@@ -259,6 +747,77 @@ export type Database = {
         }
         Relationships: []
       }
+      tour_sales: {
+        Row: {
+          created_at: string | null
+          gross_revenue: number | null
+          id: string
+          is_comp: boolean | null
+          product_variant_id: string | null
+          quantity_sold: number
+          sale_date: string
+          show_id: string
+          source: string
+          source_data: Json | null
+          unit_price: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          gross_revenue?: number | null
+          id?: string
+          is_comp?: boolean | null
+          product_variant_id?: string | null
+          quantity_sold: number
+          sale_date: string
+          show_id: string
+          source: string
+          source_data?: Json | null
+          unit_price?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          gross_revenue?: number | null
+          id?: string
+          is_comp?: boolean | null
+          product_variant_id?: string | null
+          quantity_sold?: number
+          sale_date?: string
+          show_id?: string
+          source?: string
+          source_data?: Json | null
+          unit_price?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tour_sales_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: false
+            referencedRelation: "master_inventory_view"
+            referencedColumns: ["variant_id"]
+          },
+          {
+            foreignKeyName: "tour_sales_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: false
+            referencedRelation: "product_pricing_view"
+            referencedColumns: ["variant_id"]
+          },
+          {
+            foreignKeyName: "tour_sales_product_variant_id_fkey"
+            columns: ["product_variant_id"]
+            isOneToOne: false
+            referencedRelation: "product_variants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tour_sales_show_id_fkey"
+            columns: ["show_id"]
+            isOneToOne: false
+            referencedRelation: "shows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tours: {
         Row: {
           created_at: string | null
@@ -289,9 +848,82 @@ export type Database = {
         }
         Relationships: []
       }
+      venue_night_totals: {
+        Row: {
+          created_at: string | null
+          id: string
+          net_receipts: number
+          sale_date: string
+          show_id: string | null
+          source: string
+          total_fees: number
+          total_receipts: number
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          net_receipts: number
+          sale_date: string
+          show_id?: string | null
+          source: string
+          total_fees: number
+          total_receipts: number
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          net_receipts?: number
+          sale_date?: string
+          show_id?: string | null
+          source?: string
+          total_fees?: number
+          total_receipts?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "venue_night_totals_show_id_fkey"
+            columns: ["show_id"]
+            isOneToOne: false
+            referencedRelation: "shows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
-      [_ in never]: never
+      master_inventory_view: {
+        Row: {
+          color: string | null
+          last_updated: string | null
+          product_name: string | null
+          product_type: string | null
+          size: string | null
+          sku: string | null
+          total_qty: number | null
+          tour_qty: number | null
+          tour_start_qty: number | null
+          transfer_qty: number | null
+          variant_id: string | null
+          variant_name: string | null
+          venue_qty: number | null
+          warehouse_qty: number | null
+        }
+        Relationships: []
+      }
+      product_pricing_view: {
+        Row: {
+          amount: number | null
+          effective_from: string | null
+          effective_to: string | null
+          price_type: string | null
+          product_name: string | null
+          sku: string | null
+          source: string | null
+          variant_id: string | null
+          variant_name: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never
