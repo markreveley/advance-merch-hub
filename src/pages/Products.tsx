@@ -109,7 +109,7 @@ export default function Products() {
 
   const getRetailPrice = (variant: ProductWithVariants['variants'][0]): string => {
     const retailPrice = variant.pricing?.find(p => p.price_type === 'retail');
-    if (retailPrice) return `$${retailPrice.amount.toFixed(2)}`;
+    if (retailPrice && retailPrice.amount != null) return `$${retailPrice.amount.toFixed(2)}`;
     return '—';
   };
 
