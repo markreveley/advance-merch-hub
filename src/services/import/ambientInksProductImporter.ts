@@ -83,10 +83,19 @@ async function importProduct(
   // Use first row for product-level data
   const firstRow = variantRows[0];
 
-  // Skip if title is missing or looks like HTML/CSS
+  // Skip if title is missing or looks like HTML/CSS/garbage
   const title = firstRow.Title?.trim();
-  if (!title || title.startsWith('<') || title.length < 2) {
-    result.warnings.push(`Skipping malformed product: ${productId}`);
+  if (!title || 
+      title.startsWith('<') || 
+      title.startsWith('--') ||
+      title.startsWith('td {') ||
+      title.includes('</style>') ||
+      title.includes('mso-data-placement') ||
+      title.match(/^(Created_\d{4}|MB-Invisible|bis-hidden|style and)$/i) ||
+      title.length < 3 ||
+      title.length > 200) {
+    console.log(`Skipping malformed product title: "${title}"`);
+    result.warnings.push(`Skipped malformed product: ${title || productId}`);
     return;
   }
 
