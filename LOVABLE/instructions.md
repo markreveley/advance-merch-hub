@@ -6,12 +6,16 @@ This file contains instructions for the Lovable agent to execute deployment and 
 
 ## 2025-11-18: Master Merch Inventory System - Data Import Setup
 
+### ⚠️ UPDATE (2025-11-18 - Later):
+**Products Page Fixed!** The Products page was showing blank rows with $0.00 because it was querying the OLD schema. This has been fixed - the Products page now correctly displays all imported products with their variants, sizes, prices, and details in an expandable accordion format.
+
 ### Context
 The master merch inventory system has been fully developed locally with:
 - Complete database schema (12 tables, 2 views) ✅ Already migrated in Lovable
 - Data import services for CSV files ✅ Already in codebase
 - Master Inventory View UI ✅ Already in codebase
 - Import Data page with one-click import ✅ Already in codebase
+- Products page FIXED to work with new schema ✅ Latest update
 
 **Current Status**: The database schema is migrated, but the database is empty. Users need to import data from CSV files in the assets folder.
 
@@ -46,6 +50,26 @@ After import completes, navigate to `/master-inventory` and verify:
 - Search and filtering work
 - CSV export button works
 - Summary cards show correct totals
+
+#### 3a. Verify Products Page (UPDATED - FIXED!)
+
+Navigate to `/products` and verify:
+- Products display in expandable accordion items (NOT blank rows!)
+- Each product shows:
+  - Product title
+  - Type badge (e.g., "T-Shirt", "Poster")
+  - Vendor badge (e.g., "Dirtwire")
+  - Number of variants
+- When expanded, each product shows a table of variants with:
+  - SKU (e.g., "DIRT001-L")
+  - Variant name (e.g., "Large", "Medium - Black")
+  - Size (e.g., "Small", "Medium", "Large")
+  - Color (if applicable)
+  - Retail Price (e.g., "$35.00") - **NOT $0.00!**
+- Search functionality works
+- Summary cards show correct totals
+
+**If you still see blank rows or $0.00 prices**, refresh the page or clear browser cache.
 
 #### 4. Troubleshooting
 
