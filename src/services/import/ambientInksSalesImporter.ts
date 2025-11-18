@@ -100,7 +100,7 @@ async function importSalesOrder(
     .select('id')
     .eq('order_number', orderNumber)
     .eq('sku', sku || '')
-    .single();
+    .maybeSingle();
 
   if (existingOrder) {
     console.log(`Order ${orderNumber} already exists, skipping...`);
@@ -176,7 +176,7 @@ async function updateInventoryState(
     .eq('product_variant_id', variantId)
     .eq('state', state)
     .is('tour_id', null)
-    .single();
+    .maybeSingle();
 
   if (currentState) {
     // Update existing state

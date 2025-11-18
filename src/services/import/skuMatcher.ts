@@ -31,7 +31,7 @@ export async function findVariantBySku(
     .from('product_variants')
     .select('id, sku')
     .eq('sku', sku)
-    .single();
+    .maybeSingle();
 
   if (exactMatch) {
     return {
@@ -47,7 +47,7 @@ export async function findVariantBySku(
     .from('product_identifiers')
     .select('product_variant_id, identifier_value')
     .eq('identifier_value', sku)
-    .single();
+    .maybeSingle();
 
   if (identifierMatch) {
     return {
