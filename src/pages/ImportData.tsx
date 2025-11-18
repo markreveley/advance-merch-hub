@@ -149,11 +149,13 @@ export default function ImportData() {
         <CardHeader>
           <CardTitle>Quick Import</CardTitle>
           <CardDescription>
-            This will import data from your assets folder:
-            <ul className="mt-2 space-y-1">
-              <li>• Ambient Inks Product Catalog (products, variants, pricing, inventory)</li>
-              <li>• Ambient Inks Sales Report (online sales orders)</li>
-            </ul>
+            <div>
+              This will import data from your assets folder:
+              <ul className="mt-2 space-y-1">
+                <li>• Ambient Inks Product Catalog (products, variants, pricing, inventory)</li>
+                <li>• Ambient Inks Sales Report (online sales orders)</li>
+              </ul>
+            </div>
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">

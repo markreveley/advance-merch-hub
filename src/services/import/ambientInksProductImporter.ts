@@ -83,6 +83,23 @@ async function importProduct(
   // Use first row for product-level data
   const firstRow = variantRows[0];
 
+  // Skip if title is missing or looks like HTML/CSS
+  const title = firstRow.Title?.trim();
+  if (!title || title.startsWith('<') || title.length < 2) {
+    result.warnings.push(`Skipping malformed product: ${productId}`);
+    return;
+  }
+
+  // Generate a clean handle from title if handle is missing or invalid
+  let handle = firstRow.Handle?.trim();
+  if (!handle || handle.startsWith('<') || handle.length < 2) {
+    handle = title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .substring(0, 100);
+  }
+
   // Check if product already exists
   const { data: existingProduct } = await supabase
     .from('products')
@@ -94,17 +111,17 @@ async function importProduct(
 
   if (existingProduct) {
     dbProductId = existingProduct.id;
-    console.log(`Product ${firstRow.Title} already exists, updating variants...`);
+    console.log(`Product ${title} already exists, updating variants...`);
   } else {
     // Create product
     const { data: newProduct, error: productError } = await supabase
       .from('products')
       .insert({
-        handle: firstRow.Handle,
-        title: firstRow.Title,
-        description: firstRow.Description,
-        vendor: firstRow.Vendor,
-        type: firstRow.Type,
+        handle,
+        title,
+        description: firstRow.Description || '',
+        vendor: firstRow.Vendor || '',
+        type: firstRow.Type || '',
         tags: parseArray(firstRow.Tags),
         image_urls: firstRow['Image Src'] ? parseArray(firstRow['Image Src']) : [],
         published: parseBoolean(firstRow.Published),
@@ -119,7 +136,7 @@ async function importProduct(
 
     dbProductId = newProduct.id;
     result.productsCreated++;
-    console.log(`Created product: ${firstRow.Title}`);
+    console.log(`Created product: ${title}`);
   }
 
   // Process each variant
@@ -220,35 +237,63 @@ async function importPricing(
 ): Promise<void> {
   const retailPrice = parseNumeric(row['Variant Price']);
   const compareAtPrice = parseNumeric(row['Variant Compare At Price']);
+  const effectiveDate = new Date().toISOString().split('T')[0];
 
   if (retailPrice) {
-    await supabase
+    // Check if pricing exists first
+    const { data: existingPrice } = await supabase
       .from('product_pricing')
-      .upsert(
-        {
+      .select('id')
+      .eq('product_variant_id', variantId)
+      .eq('price_type', 'retail')
+      .eq('source', 'ambient_inks')
+      .eq('effective_from', effectiveDate)
+      .single();
+
+    if (existingPrice) {
+      await supabase
+        .from('product_pricing')
+        .update({ amount: retailPrice })
+        .eq('id', existingPrice.id);
+    } else {
+      await supabase
+        .from('product_pricing')
+        .insert({
           product_variant_id: variantId,
           price_type: 'retail',
           amount: retailPrice,
           source: 'ambient_inks',
-          effective_from: new Date().toISOString().split('T')[0],
-        },
-        { onConflict: 'product_variant_id,price_type,source,effective_from' }
-      );
+          effective_from: effectiveDate,
+        });
+    }
   }
 
   if (compareAtPrice) {
-    await supabase
+    const { data: existingPrice } = await supabase
       .from('product_pricing')
-      .upsert(
-        {
+      .select('id')
+      .eq('product_variant_id', variantId)
+      .eq('price_type', 'compare_at')
+      .eq('source', 'ambient_inks')
+      .eq('effective_from', effectiveDate)
+      .single();
+
+    if (existingPrice) {
+      await supabase
+        .from('product_pricing')
+        .update({ amount: compareAtPrice })
+        .eq('id', existingPrice.id);
+    } else {
+      await supabase
+        .from('product_pricing')
+        .insert({
           product_variant_id: variantId,
           price_type: 'compare_at',
           amount: compareAtPrice,
           source: 'ambient_inks',
-          effective_from: new Date().toISOString().split('T')[0],
-        },
-        { onConflict: 'product_variant_id,price_type,source,effective_from' }
-      );
+          effective_from: effectiveDate,
+        });
+    }
   }
 }
 
@@ -261,33 +306,64 @@ async function importInitialInventory(
 
   // Create or update warehouse inventory
   if (warehouseQty > 0) {
-    await supabase
+    // Check if state exists first
+    const { data: existingState } = await supabase
       .from('inventory_states')
-      .upsert(
-        {
+      .select('id, quantity')
+      .eq('product_variant_id', variantId)
+      .eq('state', 'warehouse')
+      .is('tour_id', null)
+      .single();
+
+    if (existingState) {
+      await supabase
+        .from('inventory_states')
+        .update({
+          quantity: warehouseQty,
+          last_counted_at: new Date().toISOString(),
+        })
+        .eq('id', existingState.id);
+    } else {
+      await supabase
+        .from('inventory_states')
+        .insert({
           product_variant_id: variantId,
           state: 'warehouse',
           quantity: warehouseQty,
           tour_id: null,
           last_counted_at: new Date().toISOString(),
-        },
-        { onConflict: 'product_variant_id,state,coalesce(tour_id,\'00000000-0000-0000-0000-000000000000\'::uuid)' }
-      );
+        });
+    }
   }
 
   // Create or update tour inventory
   if (tourQty > 0) {
-    await supabase
+    const { data: existingState } = await supabase
       .from('inventory_states')
-      .upsert(
-        {
+      .select('id, quantity')
+      .eq('product_variant_id', variantId)
+      .eq('state', 'tour')
+      .is('tour_id', null)
+      .single();
+
+    if (existingState) {
+      await supabase
+        .from('inventory_states')
+        .update({
+          quantity: tourQty,
+          last_counted_at: new Date().toISOString(),
+        })
+        .eq('id', existingState.id);
+    } else {
+      await supabase
+        .from('inventory_states')
+        .insert({
           product_variant_id: variantId,
           state: 'tour',
           quantity: tourQty,
           tour_id: null,
           last_counted_at: new Date().toISOString(),
-        },
-        { onConflict: 'product_variant_id,state,coalesce(tour_id,\'00000000-0000-0000-0000-000000000000\'::uuid)' }
-      );
+        });
+    }
   }
 }
