@@ -1,4 +1,4 @@
-import { Home, Package, Warehouse, ShoppingCart, Calendar, MapPin, FileText, LayoutGrid, Upload } from "lucide-react";
+import { Home, Package, Warehouse, ShoppingCart, Calendar, MapPin, FileText, LayoutGrid, Upload, Activity } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
 
@@ -19,6 +19,7 @@ const merchItems = [
   { title: "Inventory", url: "/inventory", icon: Warehouse },
   { title: "Master Inventory", url: "/master-inventory", icon: LayoutGrid },
   { title: "Import Data", url: "/import", icon: Upload },
+  { title: "Database Diagnostics", url: "/diagnostics", icon: Activity },
   { title: "Sales Orders", url: "/sales", icon: ShoppingCart },
 ];
 
