@@ -93,7 +93,7 @@ export interface ProductMetadata {
 // INVENTORY STATE MANAGEMENT
 // ============================================================================
 
-export interface InventoryState {
+export interface InventoryStateRecord {
   id: string;
   product_variant_id: string;
   state: InventoryState;
@@ -241,10 +241,10 @@ export interface ProductVariantWithDetails extends ProductVariant {
   identifiers: ProductIdentifier[];
   pricing: ProductPricing[];
   metadata?: ProductMetadata;
-  inventory_states: InventoryState[];
+  inventory_states: InventoryStateRecord[];
 }
 
-export interface InventoryStateWithProduct extends InventoryState {
+export interface InventoryStateWithProduct extends InventoryStateRecord {
   product_variant: ProductVariant;
   product: Product;
 }
