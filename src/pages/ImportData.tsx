@@ -28,12 +28,18 @@ export default function ImportData() {
   const importProducts = async () => {
     try {
       const csvContent = await fetchAssetFile('/assets/Ambient Inks/Master Product List/11-17-25 Products-Export.csv');
-      const result = await importAmbientInksProducts(csvContent);
+      
+      // Use edge function for server-side import (no timeout)
+      const { data, error } = await supabase.functions.invoke('import-ambient-inks', {
+        body: { csvData: csvContent },
+      });
+
+      if (error) throw error;
 
       return {
-        success: result.success,
-        message: `Products: ${result.productsCreated} created, ${result.variantsCreated} variants`,
-        details: result,
+        success: true,
+        message: `Products: ${data.productsImported} created, ${data.variantsImported} variants`,
+        details: data,
       };
     } catch (error) {
       return {
