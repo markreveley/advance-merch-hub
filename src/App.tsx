@@ -10,6 +10,7 @@ import Products from "./pages/Products";
 import Inventory from "./pages/Inventory";
 import MasterInventory from "./pages/MasterInventory";
 import ImportData from "./pages/ImportData";
+import AutoImport from "./pages/AutoImport";
 import DatabaseDiagnostics from "./pages/DatabaseDiagnostics";
 import Sales from "./pages/Sales";
 import Tours from "./pages/Tours";
@@ -35,6 +36,7 @@ const App = () => (
           <Route path="/inventory" element={<Layout><Inventory /></Layout>} />
           <Route path="/master-inventory" element={<Layout><MasterInventory /></Layout>} />
           <Route path="/import" element={<Layout><ImportData /></Layout>} />
+          <Route path="/auto-import" element={<Layout><AutoImport /></Layout>} />
           <Route path="/diagnostics" element={<Layout><DatabaseDiagnostics /></Layout>} />
           <Route path="/sales" element={<Layout><Sales /></Layout>} />
           <Route path="/tours" element={<Layout><Tours /></Layout>} />
