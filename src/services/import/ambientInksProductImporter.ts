@@ -86,16 +86,17 @@ async function importProduct(
   // Skip if title is missing or looks like HTML/CSS/garbage
   const title = firstRow.Title?.trim();
   if (!title || 
-      title.startsWith('<') || 
+      title.includes('<') ||  // Any HTML tags
+      title.includes('>') ||
       title.startsWith('--') ||
       title.startsWith('td {') ||
-      title.includes('</style>') ||
       title.includes('mso-data-placement') ||
-      title.match(/^(Created_\d{4}|MB-Invisible|bis-hidden|style and)$/i) ||
+      title.includes('{') ||  // JSON-like data
+      title.match(/^(Created_\d{4}|MB-Invisible|bis-hidden|music)$/i) ||
       title.length < 3 ||
       title.length > 200) {
-    console.log(`Skipping malformed product title: "${title}"`);
-    result.warnings.push(`Skipped malformed product: ${title || productId}`);
+    console.log(`Skipping malformed product title: "${title?.substring(0, 100)}..."`);
+    result.warnings.push(`Skipped malformed product: ${title?.substring(0, 50) || productId}`);
     return;
   }
 
