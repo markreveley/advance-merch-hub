@@ -1,4 +1,29 @@
-# Welcome to your Lovable project
+# Advance Merch Hub
+
+A comprehensive tour management application for music acts, handling merchandise management and event advancing.
+
+## Overview
+
+This application provides two primary functions for music acts:
+
+1. **Merch Management**: Track inventory from your merch management company and tour reports from AtVenu.com
+2. **Event Advancing**: Integrate with Master Tour for event advancing, with AI-powered draft generation and status tracking
+
+## Features
+
+### Event Advancing
+- View event status from Master Tour (Eventric)
+- Track advancing progress by category (Technical, Hospitality, Production)
+- Display detailed event information (venue, date, time, type)
+- Monitor completion status of advancing items
+- Visual progress tracking with real-time updates
+
+### Upcoming Features
+- AI-generated advancing drafts
+- Two-way sync with Master Tour API
+- Guest list management
+- Set list integration
+- Automated status updates
 
 ## Project info
 
@@ -32,9 +57,26 @@ cd <YOUR_PROJECT_NAME>
 # Step 3: Install the necessary dependencies.
 npm i
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Step 4: Copy the example environment file and configure your API keys
+cp .env.example .env
+# Edit .env with your Supabase and Master Tour credentials
+
+# Step 5: Start the development server with auto-reloading and an instant preview.
 npm run dev
 ```
+
+## Configuration
+
+### Environment Variables
+
+Copy `.env.example` to `.env` and configure:
+
+- **Supabase**: Database and authentication
+- **Master Tour API**: Tour management and advancing (see [Master Tour Integration](docs/MASTER_TOUR_INTEGRATION.md))
+
+### Master Tour Setup
+
+See [docs/MASTER_TOUR_INTEGRATION.md](docs/MASTER_TOUR_INTEGRATION.md) for detailed setup instructions.
 
 **Edit a file directly in GitHub**
 
