@@ -30,7 +30,7 @@ interface Product {
   product_id: number;
   sku: string;
   name: string;
-  price: number;
+  price: number | null;
 }
 
 const Products = () => {
@@ -71,7 +71,7 @@ const Products = () => {
         product_id: product.product_id.toString(),
         sku: product.sku,
         name: product.name,
-        price: product.price.toString(),
+        price: product.price ? product.price.toString() : "",
       });
     } else {
       setEditingProduct(null);
@@ -189,7 +189,7 @@ const Products = () => {
               <TableRow key={product.id}>
                 <TableCell>{product.sku}</TableCell>
                 <TableCell>{product.name}</TableCell>
-                <TableCell>${product.price.toFixed(2)}</TableCell>
+                <TableCell>${product.price ? product.price.toFixed(2) : '0.00'}</TableCell>
                 <TableCell>{product.product_id}</TableCell>
                 <TableCell className="text-right">
                   <Button
