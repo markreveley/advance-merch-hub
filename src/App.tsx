@@ -9,6 +9,7 @@ import Signup from "./pages/Signup";
 import Products from "./pages/Products";
 import Inventory from "./pages/Inventory";
 import MasterInventory from "./pages/MasterInventory";
+import ImportData from "./pages/ImportData";
 import Sales from "./pages/Sales";
 import Tours from "./pages/Tours";
 import Shows from "./pages/Shows";
@@ -32,6 +33,7 @@ const App = () => (
           <Route path="/products" element={<Layout><Products /></Layout>} />
           <Route path="/inventory" element={<Layout><Inventory /></Layout>} />
           <Route path="/master-inventory" element={<Layout><MasterInventory /></Layout>} />
+          <Route path="/import" element={<Layout><ImportData /></Layout>} />
           <Route path="/sales" element={<Layout><Sales /></Layout>} />
           <Route path="/tours" element={<Layout><Tours /></Layout>} />
           <Route path="/shows" element={<Layout><Shows /></Layout>} />
