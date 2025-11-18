@@ -81,6 +81,17 @@ export default function ImportData() {
     };
   };
 
+  const cleanData = async () => {
+    // Delete in order to respect foreign key constraints
+    await supabase.from('inventory_transactions').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+    await supabase.from('inventory_states').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+    await supabase.from('product_pricing').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+    await supabase.from('product_identifiers').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+    await supabase.from('sales_orders').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+    await supabase.from('product_variants').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+    await supabase.from('products').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+  };
+
   const runImport = async () => {
     setImporting(true);
     setResults([]);
@@ -94,12 +105,31 @@ export default function ImportData() {
         success: true,
         message: `Current data: ${beforeData.products} products, ${beforeData.variants} variants, ${beforeData.sales} sales`,
       });
+      setResults([...importResults]);
+
+      // Clean existing data
+      if (beforeData.products > 0 || beforeData.variants > 0 || beforeData.sales > 0) {
+        importResults.push({
+          success: true,
+          message: 'Cleaning existing data...',
+        });
+        setResults([...importResults]);
+
+        await cleanData();
+
+        importResults.push({
+          success: true,
+          message: 'All existing data cleared successfully',
+        });
+        setResults([...importResults]);
+      }
 
       // Import products first
       importResults.push({
         success: true,
         message: 'Starting product import...',
       });
+      setResults([...importResults]);
 
       const productResult = await importProducts();
       importResults.push(productResult);
