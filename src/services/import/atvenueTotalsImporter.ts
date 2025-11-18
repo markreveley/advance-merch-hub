@@ -55,7 +55,7 @@ export async function importAtvenueTotals(
       .from('tours')
       .select('id, name')
       .eq('id', options.tourId)
-      .single();
+      .maybeSingle();
 
     if (!tour) {
       result.errors.push(`Tour not found: ${options.tourId}`);
@@ -128,7 +128,7 @@ async function importVenueNight(
     .eq('tour_id', tourId)
     .eq('venue', row.Venue)
     .eq('show_date', showDate.toISOString().split('T')[0])
-    .single();
+    .maybeSingle();
 
   if (existingShow) {
     showId = existingShow.id;
@@ -161,7 +161,7 @@ async function importVenueNight(
     .select('id')
     .eq('show_id', showId)
     .eq('sale_date', showDate.toISOString().split('T')[0])
-    .single();
+    .maybeSingle();
 
   if (existingTotal) {
     console.log(`Venue night total already exists for show ${showId}, skipping...`);

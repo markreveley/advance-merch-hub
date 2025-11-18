@@ -56,7 +56,7 @@ export async function importAtvenueSales(
       .from('tours')
       .select('id')
       .eq('id', options.tourId)
-      .single();
+      .maybeSingle();
 
     if (!tour) {
       result.errors.push(`Tour not found: ${options.tourId}`);
@@ -145,7 +145,7 @@ async function importSalesItem(
     .from('shows')
     .select('show_date')
     .eq('id', showId)
-    .single();
+    .maybeSingle();
 
   const saleDate = show?.show_date || new Date().toISOString().split('T')[0];
 
@@ -280,7 +280,7 @@ async function updateTourInventory(
     .from('shows')
     .select('tour_id')
     .eq('id', showId)
-    .single();
+    .maybeSingle();
 
   if (!show) return;
 
@@ -291,7 +291,7 @@ async function updateTourInventory(
     .eq('product_variant_id', variantId)
     .eq('state', 'tour')
     .eq('tour_id', show.tour_id)
-    .single();
+    .maybeSingle();
 
   if (currentState) {
     // Update existing state

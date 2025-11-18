@@ -115,7 +115,7 @@ async function importProduct(
     .from('products')
     .select('id')
     .eq('ambient_inks_id', productId)
-    .single();
+    .maybeSingle();
 
   let dbProductId: string;
 
@@ -186,7 +186,7 @@ async function importVariant(
     .from('product_variants')
     .select('id')
     .eq('sku', sku)
-    .single();
+    .maybeSingle();
 
   let variantId: string;
 
@@ -258,7 +258,7 @@ async function importPricing(
       .eq('price_type', 'retail')
       .eq('source', 'ambient_inks')
       .eq('effective_from', effectiveDate)
-      .single();
+      .maybeSingle();
 
     if (existingPrice) {
       await supabase
@@ -285,8 +285,8 @@ async function importPricing(
       .eq('product_variant_id', variantId)
       .eq('price_type', 'compare_at')
       .eq('source', 'ambient_inks')
-      .eq('effective_from', effectiveDate)
-      .single();
+       .eq('effective_from', effectiveDate)
+       .maybeSingle();
 
     if (existingPrice) {
       await supabase
@@ -323,7 +323,7 @@ async function importInitialInventory(
       .eq('product_variant_id', variantId)
       .eq('state', 'warehouse')
       .is('tour_id', null)
-      .single();
+      .maybeSingle();
 
     if (existingState) {
       await supabase
@@ -353,8 +353,8 @@ async function importInitialInventory(
       .select('id, quantity')
       .eq('product_variant_id', variantId)
       .eq('state', 'tour')
-      .is('tour_id', null)
-      .single();
+       .is('tour_id', null)
+       .maybeSingle();
 
     if (existingState) {
       await supabase
