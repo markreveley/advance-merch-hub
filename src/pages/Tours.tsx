@@ -30,6 +30,10 @@ import {
 interface Tour {
   id: string;
   name: string;
+  artist?: string;
+  tour_manager_name?: string;
+  tour_manager_email?: string;
+  tour_manager_phone?: string;
   start_date: string;
   end_date: string;
   status: string;
@@ -44,6 +48,10 @@ const Tours = () => {
   const [deletingTour, setDeletingTour] = useState<Tour | null>(null);
   const [formData, setFormData] = useState({
     name: "",
+    artist: "",
+    tour_manager_name: "",
+    tour_manager_email: "",
+    tour_manager_phone: "",
     start_date: "",
     end_date: "",
     status: "planning",
@@ -71,13 +79,26 @@ const Tours = () => {
       setEditingTour(tour);
       setFormData({
         name: tour.name,
+        artist: tour.artist || "",
+        tour_manager_name: tour.tour_manager_name || "",
+        tour_manager_email: tour.tour_manager_email || "",
+        tour_manager_phone: tour.tour_manager_phone || "",
         start_date: tour.start_date,
         end_date: tour.end_date,
         status: tour.status,
       });
     } else {
       setEditingTour(null);
-      setFormData({ name: "", start_date: "", end_date: "", status: "planning" });
+      setFormData({
+        name: "",
+        artist: "",
+        tour_manager_name: "",
+        tour_manager_email: "",
+        tour_manager_phone: "",
+        start_date: "",
+        end_date: "",
+        status: "planning",
+      });
     }
     setDialogOpen(true);
   };
@@ -85,13 +106,26 @@ const Tours = () => {
   const handleCloseDialog = () => {
     setDialogOpen(false);
     setEditingTour(null);
-    setFormData({ name: "", start_date: "", end_date: "", status: "planning" });
+    setFormData({
+      name: "",
+      artist: "",
+      tour_manager_name: "",
+      tour_manager_email: "",
+      tour_manager_phone: "",
+      start_date: "",
+      end_date: "",
+      status: "planning",
+    });
   };
 
   const handleSave = async () => {
     try {
       const tourData = {
         name: formData.name,
+        artist: formData.artist || null,
+        tour_manager_name: formData.tour_manager_name || null,
+        tour_manager_email: formData.tour_manager_email || null,
+        tour_manager_phone: formData.tour_manager_phone || null,
         start_date: formData.start_date,
         end_date: formData.end_date,
         status: formData.status,
@@ -250,22 +284,33 @@ const Tours = () => {
               />
             </div>
             <div>
-              <Label htmlFor="start_date">Start Date</Label>
+              <Label htmlFor="artist">Artist</Label>
               <Input
-                id="start_date"
-                type="date"
-                value={formData.start_date}
-                onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
+                id="artist"
+                value={formData.artist}
+                onChange={(e) => setFormData({ ...formData, artist: e.target.value })}
+                placeholder="Dirtwire"
               />
             </div>
-            <div>
-              <Label htmlFor="end_date">End Date</Label>
-              <Input
-                id="end_date"
-                type="date"
-                value={formData.end_date}
-                onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="start_date">Start Date</Label>
+                <Input
+                  id="start_date"
+                  type="date"
+                  value={formData.start_date}
+                  onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
+                />
+              </div>
+              <div>
+                <Label htmlFor="end_date">End Date</Label>
+                <Input
+                  id="end_date"
+                  type="date"
+                  value={formData.end_date}
+                  onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
+                />
+              </div>
             </div>
             <div>
               <Label htmlFor="status">Status</Label>
@@ -282,6 +327,42 @@ const Tours = () => {
                   <SelectItem value="completed">Completed</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+            <div className="space-y-2">
+              <Label className="text-base font-semibold">Tour Manager</Label>
+              <div className="space-y-3 pl-2">
+                <div>
+                  <Label htmlFor="tour_manager_name">Name</Label>
+                  <Input
+                    id="tour_manager_name"
+                    value={formData.tour_manager_name}
+                    onChange={(e) => setFormData({ ...formData, tour_manager_name: e.target.value })}
+                    placeholder="John Doe"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="tour_manager_email">Email</Label>
+                    <Input
+                      id="tour_manager_email"
+                      type="email"
+                      value={formData.tour_manager_email}
+                      onChange={(e) => setFormData({ ...formData, tour_manager_email: e.target.value })}
+                      placeholder="john@example.com"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="tour_manager_phone">Phone</Label>
+                    <Input
+                      id="tour_manager_phone"
+                      type="tel"
+                      value={formData.tour_manager_phone}
+                      onChange={(e) => setFormData({ ...formData, tour_manager_phone: e.target.value })}
+                      placeholder="+1 (555) 123-4567"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <DialogFooter>

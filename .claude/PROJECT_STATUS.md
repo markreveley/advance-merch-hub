@@ -314,7 +314,21 @@
 - **Estimate**: 12 hours
 - **Status**: 🔵 Planned
 
-#### P4-4: Analytics Dashboard
+#### P4-4: Calendar View for Shows
+- **What**: Calendar interface to visualize tour dates and shows
+- **Why**: Easier to see tour schedule at a glance, identify gaps, plan routing
+- **Who**: Any agent
+- **Features**:
+  - Month/week/day views
+  - Color-coded by advancing status
+  - Click show to open ShowDetail
+  - Drag-and-drop to reschedule (updates show_date)
+  - Filter by tour
+- **Libraries**: react-big-calendar or FullCalendar
+- **Estimate**: 10 hours
+- **Status**: 🔵 Planned
+
+#### P4-5: Analytics Dashboard
 - **What**: Metrics on advancing efficiency, time saved
 - **Who**: Any agent
 - **Estimate**: 8 hours

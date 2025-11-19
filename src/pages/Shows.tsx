@@ -102,7 +102,11 @@ const Shows = () => {
               </TableHeader>
               <TableBody>
                 {shows.map((show) => (
-                  <TableRow key={show.id}>
+                  <TableRow
+                    key={show.id}
+                    className="cursor-pointer hover:bg-muted/50"
+                    onClick={() => navigate(`/shows/${show.id}`)}
+                  >
                     <TableCell>{new Date(show.show_date).toLocaleDateString()}</TableCell>
                     <TableCell className="font-medium">{show.venue}</TableCell>
                     <TableCell>
