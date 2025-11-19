@@ -14,6 +14,59 @@ export type Database = {
   }
   public: {
     Tables: {
+      advancing_checklists: {
+        Row: {
+          category: string | null
+          checklist_item: string
+          completed: boolean | null
+          completed_at: string | null
+          completed_by: string | null
+          created_at: string | null
+          due_date: string | null
+          id: string
+          notes: string | null
+          priority: string | null
+          show_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          category?: string | null
+          checklist_item: string
+          completed?: boolean | null
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string | null
+          due_date?: string | null
+          id?: string
+          notes?: string | null
+          priority?: string | null
+          show_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string | null
+          checklist_item?: string
+          completed?: boolean | null
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string | null
+          due_date?: string | null
+          id?: string
+          notes?: string | null
+          priority?: string | null
+          show_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "advancing_checklists_show_id_fkey"
+            columns: ["show_id"]
+            isOneToOne: false
+            referencedRelation: "shows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       advancing_drafts: {
         Row: {
           ai_generated: boolean | null
@@ -51,6 +104,307 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "advancing_drafts_show_id_fkey"
+            columns: ["show_id"]
+            isOneToOne: false
+            referencedRelation: "shows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      advancing_templates: {
+        Row: {
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          template_content: string | null
+          template_name: string
+          template_type: string
+          updated_at: string | null
+          variables: Json | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          template_content?: string | null
+          template_name: string
+          template_type: string
+          updated_at?: string | null
+          variables?: Json | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          template_content?: string | null
+          template_name?: string
+          template_type?: string
+          updated_at?: string | null
+          variables?: Json | null
+        }
+        Relationships: []
+      }
+      agent_activity_log: {
+        Row: {
+          activity_description: string | null
+          activity_type: string
+          created_at: string | null
+          error_message: string | null
+          id: string
+          metadata: Json | null
+          show_id: string | null
+          success: boolean | null
+        }
+        Insert: {
+          activity_description?: string | null
+          activity_type: string
+          created_at?: string | null
+          error_message?: string | null
+          id?: string
+          metadata?: Json | null
+          show_id?: string | null
+          success?: boolean | null
+        }
+        Update: {
+          activity_description?: string | null
+          activity_type?: string
+          created_at?: string | null
+          error_message?: string | null
+          id?: string
+          metadata?: Json | null
+          show_id?: string | null
+          success?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_activity_log_show_id_fkey"
+            columns: ["show_id"]
+            isOneToOne: false
+            referencedRelation: "shows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      agent_drafts: {
+        Row: {
+          ai_confidence_score: number | null
+          ai_model: string | null
+          content: string | null
+          created_at: string | null
+          draft_type: string
+          id: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          sent_at: string | null
+          show_id: string
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          ai_confidence_score?: number | null
+          ai_model?: string | null
+          content?: string | null
+          created_at?: string | null
+          draft_type: string
+          id?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          sent_at?: string | null
+          show_id: string
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          ai_confidence_score?: number | null
+          ai_model?: string | null
+          content?: string | null
+          created_at?: string | null
+          draft_type?: string
+          id?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          sent_at?: string | null
+          show_id?: string
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_drafts_show_id_fkey"
+            columns: ["show_id"]
+            isOneToOne: false
+            referencedRelation: "shows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      agent_learning_data: {
+        Row: {
+          created_at: string | null
+          id: string
+          last_updated: string | null
+          pattern_data: Json | null
+          pattern_type: string
+          sample_size: number | null
+          success_rate: number | null
+          venue_id: string | null
+          venue_name: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          last_updated?: string | null
+          pattern_data?: Json | null
+          pattern_type: string
+          sample_size?: number | null
+          success_rate?: number | null
+          venue_id?: string | null
+          venue_name?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          last_updated?: string | null
+          pattern_data?: Json | null
+          pattern_type?: string
+          sample_size?: number | null
+          success_rate?: number | null
+          venue_id?: string | null
+          venue_name?: string | null
+        }
+        Relationships: []
+      }
+      email_extractions: {
+        Row: {
+          confidence_score: number | null
+          created_at: string | null
+          email_message_id: string
+          extracted_data: Json | null
+          extraction_type: string
+          id: string
+          needs_review: boolean | null
+          reviewed: boolean | null
+        }
+        Insert: {
+          confidence_score?: number | null
+          created_at?: string | null
+          email_message_id: string
+          extracted_data?: Json | null
+          extraction_type: string
+          id?: string
+          needs_review?: boolean | null
+          reviewed?: boolean | null
+        }
+        Update: {
+          confidence_score?: number | null
+          created_at?: string | null
+          email_message_id?: string
+          extracted_data?: Json | null
+          extraction_type?: string
+          id?: string
+          needs_review?: boolean | null
+          reviewed?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_extractions_email_message_id_fkey"
+            columns: ["email_message_id"]
+            isOneToOne: false
+            referencedRelation: "email_messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      email_messages: {
+        Row: {
+          body_html: string | null
+          body_text: string | null
+          cc_emails: string[] | null
+          created_at: string | null
+          id: string
+          is_from_agent: boolean | null
+          is_from_venue: boolean | null
+          message_type: string | null
+          recipient_emails: string[]
+          sender_email: string
+          sender_name: string | null
+          sent_at: string | null
+          subject: string
+          thread_id: string
+        }
+        Insert: {
+          body_html?: string | null
+          body_text?: string | null
+          cc_emails?: string[] | null
+          created_at?: string | null
+          id?: string
+          is_from_agent?: boolean | null
+          is_from_venue?: boolean | null
+          message_type?: string | null
+          recipient_emails: string[]
+          sender_email: string
+          sender_name?: string | null
+          sent_at?: string | null
+          subject: string
+          thread_id: string
+        }
+        Update: {
+          body_html?: string | null
+          body_text?: string | null
+          cc_emails?: string[] | null
+          created_at?: string | null
+          id?: string
+          is_from_agent?: boolean | null
+          is_from_venue?: boolean | null
+          message_type?: string | null
+          recipient_emails?: string[]
+          sender_email?: string
+          sender_name?: string | null
+          sent_at?: string | null
+          subject?: string
+          thread_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_messages_thread_id_fkey"
+            columns: ["thread_id"]
+            isOneToOne: false
+            referencedRelation: "email_threads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      email_threads: {
+        Row: {
+          created_at: string | null
+          id: string
+          last_message_at: string | null
+          show_id: string | null
+          subject: string
+          thread_status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          last_message_at?: string | null
+          show_id?: string | null
+          subject: string
+          thread_status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          last_message_at?: string | null
+          show_id?: string | null
+          subject?: string
+          thread_status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_threads_show_id_fkey"
             columns: ["show_id"]
             isOneToOne: false
             referencedRelation: "shows"
@@ -262,6 +616,69 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      master_tour_cache: {
+        Row: {
+          cache_data: Json | null
+          cache_key: string
+          created_at: string | null
+          expires_at: string | null
+          id: string
+          master_tour_id: string
+        }
+        Insert: {
+          cache_data?: Json | null
+          cache_key: string
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          master_tour_id: string
+        }
+        Update: {
+          cache_data?: Json | null
+          cache_key?: string
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          master_tour_id?: string
+        }
+        Relationships: []
+      }
+      master_tour_sync_log: {
+        Row: {
+          completed_at: string | null
+          error_message: string | null
+          id: string
+          shows_created: number | null
+          shows_synced: number | null
+          shows_updated: number | null
+          started_at: string | null
+          sync_status: string
+          sync_type: string
+        }
+        Insert: {
+          completed_at?: string | null
+          error_message?: string | null
+          id?: string
+          shows_created?: number | null
+          shows_synced?: number | null
+          shows_updated?: number | null
+          started_at?: string | null
+          sync_status: string
+          sync_type: string
+        }
+        Update: {
+          completed_at?: string | null
+          error_message?: string | null
+          id?: string
+          shows_created?: number | null
+          shows_synced?: number | null
+          shows_updated?: number | null
+          started_at?: string | null
+          sync_status?: string
+          sync_type?: string
+        }
+        Relationships: []
       }
       product_identifiers: {
         Row: {
@@ -626,12 +1043,23 @@ export type Database = {
       shows: {
         Row: {
           advancing_status: string | null
+          capacity: number | null
           city: string | null
           country: string | null
           created_at: string | null
+          doors_time: string | null
           id: string
+          last_synced_at: string | null
+          load_in_time: string | null
           master_tour_id: string | null
+          master_tour_sync_status: string | null
+          merch_split_percentage: number | null
+          notes: string | null
+          primary_thread_id: string | null
+          settlement_currency: string | null
           show_date: string
+          show_time: string | null
+          stage_info: string | null
           state: string | null
           tour_id: string | null
           updated_at: string | null
@@ -639,12 +1067,23 @@ export type Database = {
         }
         Insert: {
           advancing_status?: string | null
+          capacity?: number | null
           city?: string | null
           country?: string | null
           created_at?: string | null
+          doors_time?: string | null
           id?: string
+          last_synced_at?: string | null
+          load_in_time?: string | null
           master_tour_id?: string | null
+          master_tour_sync_status?: string | null
+          merch_split_percentage?: number | null
+          notes?: string | null
+          primary_thread_id?: string | null
+          settlement_currency?: string | null
           show_date: string
+          show_time?: string | null
+          stage_info?: string | null
           state?: string | null
           tour_id?: string | null
           updated_at?: string | null
@@ -652,18 +1091,36 @@ export type Database = {
         }
         Update: {
           advancing_status?: string | null
+          capacity?: number | null
           city?: string | null
           country?: string | null
           created_at?: string | null
+          doors_time?: string | null
           id?: string
+          last_synced_at?: string | null
+          load_in_time?: string | null
           master_tour_id?: string | null
+          master_tour_sync_status?: string | null
+          merch_split_percentage?: number | null
+          notes?: string | null
+          primary_thread_id?: string | null
+          settlement_currency?: string | null
           show_date?: string
+          show_time?: string | null
+          stage_info?: string | null
           state?: string | null
           tour_id?: string | null
           updated_at?: string | null
           venue?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "shows_primary_thread_id_fkey"
+            columns: ["primary_thread_id"]
+            isOneToOne: false
+            referencedRelation: "email_threads"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "shows_tour_id_fkey"
             columns: ["tour_id"]
@@ -820,30 +1277,45 @@ export type Database = {
       }
       tours: {
         Row: {
+          artist: string | null
           created_at: string | null
           end_date: string | null
           id: string
+          master_tour_id: string | null
           name: string
           start_date: string | null
           status: string | null
+          tour_manager_email: string | null
+          tour_manager_name: string | null
+          tour_manager_phone: string | null
           updated_at: string | null
         }
         Insert: {
+          artist?: string | null
           created_at?: string | null
           end_date?: string | null
           id?: string
+          master_tour_id?: string | null
           name: string
           start_date?: string | null
           status?: string | null
+          tour_manager_email?: string | null
+          tour_manager_name?: string | null
+          tour_manager_phone?: string | null
           updated_at?: string | null
         }
         Update: {
+          artist?: string | null
           created_at?: string | null
           end_date?: string | null
           id?: string
+          master_tour_id?: string | null
           name?: string
           start_date?: string | null
           status?: string | null
+          tour_manager_email?: string | null
+          tour_manager_name?: string | null
+          tour_manager_phone?: string | null
           updated_at?: string | null
         }
         Relationships: []
@@ -926,7 +1398,10 @@ export type Database = {
       }
     }
     Functions: {
-      [_ in never]: never
+      calculate_checklist_progress: {
+        Args: { p_show_id: string }
+        Returns: number
+      }
     }
     Enums: {
       [_ in never]: never
