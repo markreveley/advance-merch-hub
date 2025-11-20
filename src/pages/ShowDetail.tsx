@@ -12,6 +12,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Save, Calendar, MapPin, Clock, DollarSign, Users, CheckSquare } from "lucide-react";
 import type { Show, Tour } from "@/types/advancing";
+import { AdvancingChecklist } from "@/components/advancing/AdvancingChecklist";
+import { ShowContacts } from "@/components/advancing/ShowContacts";
 
 interface ShowWithTour extends Show {
   tours?: Tour;
@@ -431,40 +433,12 @@ const ShowDetail = () => {
 
         {/* Contacts Tab */}
         <TabsContent value="contacts" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Users className="h-5 w-5" />
-                Venue Contacts
-              </CardTitle>
-              <CardDescription>Production managers, stage managers, and other contacts</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Contact management coming soon. This will allow you to add and manage venue contacts
-                with names, emails, phone numbers, and roles.
-              </p>
-            </CardContent>
-          </Card>
+          {id && <ShowContacts showId={id} />}
         </TabsContent>
 
         {/* Checklist Tab */}
         <TabsContent value="checklist" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <CheckSquare className="h-5 w-5" />
-                Advancing Checklist
-              </CardTitle>
-              <CardDescription>Track progress on advancing tasks</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Checklist functionality coming soon. This will track all advancing tasks with
-                categories, priorities, and completion status.
-              </p>
-            </CardContent>
-          </Card>
+          {id && <AdvancingChecklist showId={id} />}
         </TabsContent>
       </Tabs>
     </div>
